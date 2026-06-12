@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmation – Rosie's</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+  --green: 17,122,63;
+  --red: 220,38,38;
+  --green-dark: 0,77,64;
+  --soft: 245,245,245;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Montserrat', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-body); background: #fff; color: #333; }
+
+/* HERO */
+.hero-header {
+  height: 35vh;
+  min-height: 260px;
+  background: linear-gradient(135deg,
+    rgba(var(--green),0.9),
+    rgba(var(--red),0.85)
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+}
+
+.hero-logo {
+  width: 200px;
+  margin-bottom: 10px;
+}
+
+.hero-header h1 {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  margin-bottom: 6px;
+}
+
+.hero-header p {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+/* PAGE */
+.page {
+  max-width: 900px;
+  margin: -40px auto 80px;
+  padding: 0 20px;
+}
+
+/* CARD */
+.confirm-card {
+  background: rgba(var(--soft),0.95);
+  padding: 30px 26px;
+  border-radius: 22px;
+  border: 1px solid rgba(var(--green),0.15);
+  box-shadow: 0 15px 40px rgba(var(--green),0.1);
+  text-align: center;
+}
+
+.confirm-icon {
+  font-size: 4rem;
+  color: rgb(var(--green));
+  margin-bottom: 10px;
+}
+
+.confirm-card h2 {
+  font-family: var(--font-heading);
+  color: rgb(var(--green-dark));
+  margin-bottom: 10px;
+}
+
+.order-details {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.order-details h3 {
+  font-family: var(--font-heading);
+  color: rgb(var(--green));
+  margin-bottom: 10px;
+}
+
+.order-details p {
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.order-items {
+  margin-top: 12px;
+  padding-left: 10px;
+}
+
+.order-items p {
+  margin-bottom: 4px;
+}
+
+/* BUTTONS */
+.action-buttons {
+  margin-top: 26px;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 12px 20px;
+  border-radius: 50px;
+  background: linear-gradient(135deg,
+    rgb(var(--green)),
+    rgb(var(--red))
+  );
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  transition: 0.25s;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(var(--green),0.25);
+}
+</style>
+</head>
+<body>
+
+<div class="hero-header">
+  <img src="/static/images/rosies-logo.png" class="hero-logo" alt="Rosie's Logo">
+  <h1>Order Confirmed!</h1>
+  <p>Thank you for choosing Rosie's — your delicious meal is on the way.</p>
+</div>
+
+<div class="page">
+  <div class="confirm-card">
+
+    <div class="confirm-icon">✔️</div>
+
+    <h2>Your Order #{{ order.id }} Has Been Placed</h2>
+    <p>We’re preparing your meal with love and care.</p>
+
+    <div class="order-details">
+      <h3>Order Summary</h3>
+
+      <p><strong>Name:</strong> {{ order.customer_name }}</p>
+      <p><strong>Phone:</strong> {{ order.customer_phone }}</p>
+      <p><strong>Address:</strong> {{ order.customer_address }}</p>
+      <p><strong>Payment:</strong> {{ order.payment_method|capitalize }}</p>
+      <p><strong>Estimated Delivery:</strong> {{ order.estimated_delivery.strftime("%I:%M %p") }}</p>
+
+      <h3 style="margin-top:18px;">Items</h3>
+      <div class="order-items">
+        {% for item in order.items %}
+        <p>{{ item.name }} ({{ item.quantity }}x) — ${{ "%.2f"|format(item.total) }}</p>
+        {% endfor %}
+      </div>
+
+      <p style="margin-top:12px; font-size:1.2rem; font-weight:700;">
+        Total: ${{ "%.2f"|format(order.total) }}
+      </p>
+    </div>
+
+    <div class="action-buttons">
+      <a href="{{ url_for('track_order', order_id=order.id) }}" class="action-btn">
+        Track Order
+      </a>
+
+      <a href="{{ url_for('menu') }}" class="action-btn">
+        Continue Shopping
+      </a>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

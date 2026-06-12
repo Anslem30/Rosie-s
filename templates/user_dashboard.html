@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Dashboard</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --primary: #117a3f;
+    --primary-light: #4caf50;
+    --primary-dark: #004d40;
+    --secondary: #00a65a;
+    --dark: #1a1a1a;
+    --light-bg: #f8f9fa;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --card-shadow-hover: 0 8px 15px rgba(0, 0, 0, 0.12);
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--light-bg);
+    margin: 0;
+    padding: 0;
+}
+
+/* Flash messages */
+.flash-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+}
+.flash {
+    background: white;
+    padding: 12px 18px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+    box-shadow: var(--card-shadow);
+    font-weight: 600;
+    animation: slideDown 0.4s ease;
+}
+.flash.success { border-left: 6px solid #28a745; }
+.flash.error { border-left: 6px solid #dc3545; }
+.flash.warning { border-left: 6px solid #ffc107; }
+
+@keyframes slideDown {
+    from { opacity:0; transform: translateY(-10px); }
+    to { opacity:1; transform: translateY(0); }
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    height: 45vh;
+    background: linear-gradient(135deg, rgba(17,122,63,0.85), rgba(76,175,80,0.75)), url('https://picsum.photos/1200/400?blur');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+.hero-section .hero-content {
+    text-align: center;
+    z-index: 2;
+}
+.hero-section h1 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.hero-section p {
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+/* User dropdown menu */
+.user-menu {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    z-index: 10;
+}
+.user-menu .user-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+.user-menu .user-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+.user-menu .dropdown {
+    position: absolute;
+    right: 0;
+    top: 50px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    display: none;
+    min-width: 180px;
+}
+.user-menu .dropdown a {
+    display: block;
+    padding: 12px 16px;
+    text-decoration: none;
+    color: var(--dark);
+    font-weight: 500;
+    transition: background 0.2s;
+}
+.user-menu .dropdown a:hover {
+    background: var(--light-bg);
+}
+
+/* Dashboard container */
+.dashboard-container {
+    max-width: 1400px;
+    margin: -60px auto 2rem;
+    padding: 2rem;
+}
+
+/* Stats cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+.stat-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    transition: all 0.3s;
+}
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--card-shadow-hover);
+}
+.stat-card .icon {
+    font-size: 2.5rem;
+}
+.stat-card .value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+}
+.stat-card .label {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Quick actions */
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.action-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s;
+}
+.action-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--card-shadow-hover);
+}
+.action-card .icon {
+    font-size: 2rem;
+    color: var(--primary);
+}
+
+/* Recent Orders Table */
+.orders-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.orders-table th, .orders-table td {
+    padding: 0.8rem 1rem;
+    text-align: left;
+}
+.orders-table th {
+    background: var(--light-bg);
+}
+.badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+.badge-pending { background: #fff3cd; color: #856404; }
+.badge-completed { background: #d4edda; color: #155724; }
+.badge-processing { background: #cfe2ff; color: #084298; }
+
+/* Featured Menu Items */
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.menu-item {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s;
+}
+.menu-item:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-hover); }
+.menu-item .content { padding: 1rem; }
+.menu-item .content h4 { margin:0 0 0.5rem; font-size:1.1rem; font-weight:600; color:var(--dark); }
+.menu-item .content p { font-size:0.85rem; color:#555; margin-bottom:0.5rem; }
+.menu-item .content .price { font-weight:700; color:var(--primary); margin-bottom: 10px; }
+.menu-item .content .add-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.menu-item .content .add-btn:hover { background: var(--primary-light); transform: scale(1.05); }
+
+/* Animated floating cart */
+.cart-icon {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    animation: bounce 2s infinite;
+    z-index: 20;
+}
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+.cart-dropdown {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    background: white;
+    border-radius: 12px;
+    width: 320px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: var(--card-shadow);
+    display: none;
+    flex-direction: column;
+    z-index: 21;
+}
+.cart-dropdown .cart-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+.cart-dropdown .cart-item:last-child { border-bottom: none; }
+.cart-dropdown .cart-item .name { font-weight: 600; }
+.cart-dropdown .cart-item .total { font-weight: 500; color: var(--primary); }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-section h1 { font-size: 2rem; }
+    .stats-grid, .quick-actions { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Flash Messages -->
+<div class="flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+</div>
+
+<!-- Hero -->
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Welcome, {{ user.full_name }}</h1>
+        <p>Here’s a quick overview of your account and recent activity.</p>
+    </div>
+
+    <!-- User Menu -->
+    <div class="user-menu">
+        <div class="user-btn" onclick="toggleDropdown()">
+            <i class="fas fa-user-circle"></i> {{ user.username }}
+            <i class="fas fa-caret-down"></i>
+        </div>
+        <div class="dropdown" id="userDropdown">
+            <a href="{{ url_for('user_dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('menu') }}">Menu</a>
+            <a href="{{ url_for('user_profile') }}">Profile</a>
+            <a href="{{ url_for('user_logout') }}">Logout</a>
+        </div>
+    </div>
+</div>
+
+<div class="dashboard-container">
+
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="icon">📦</div>
+            <div class="value">{{ total_orders }}</div>
+            <div class="label">Total Orders</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="icon">⏳</div>
+            <div class="value">{{ pending_orders }}</div>
+            <div class="label">Pending Orders</div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <a href="{{ url_for('menu') }}" class="action-card">
+            <div class="icon">🍽️</div>
+            <div class="text">
+                <h3>Order Food</h3>
+                <p>Explore our menu</p>
+            </div>
+        </a>
+        <a href="{{ url_for('my_orders') }}" class="action-card">
+            <div class="icon">📋</div>
+            <div class="text">
+                <h3>My Orders</h3>
+                <p>View order history</p>
+            </div>
+        </a>
+        <a href="{{ url_for('user_profile') }}" class="action-card">
+            <div class="icon">👤</div>
+            <div class="text">
+                <h3>Profile</h3>
+                <p>Update your info</p>
+            </div>
+        </a>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="section-card">
+        <h2>Recent Orders</h2>
+        {% if recent_orders %}
+        <table class="orders-table">
+            <thead>
+                <tr>
+                    <th>Order #</th>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in recent_orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.created_at | datetimeformat }}</td>
+                    <td>{{ order.items|length if order.items else 0 }} items</td>
+                    <td>${{ "%.2f"|format(order.total) }}</td>
+                    <td><span class="badge badge-{{ order.status.lower() }}">{{ order.status }}</span></td>
+                    <td>
+                        <a href="{{ url_for('track_order', order_id=order.id) }}" class="action-card" style="padding: 8px 12px; border-radius: 999px; width: fit-content;">
+                            <i class="fas fa-map-marker-alt"></i> Track
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No recent orders.</p>
+        {% endif %}
+    </div>
+
+    <!-- Featured Menu -->
+    <div class="section-card">
+        <h2>Featured Menu</h2>
+        <div class="menu-grid">
+            {% if menu_items %}
+                {% for item in menu_items[:6] %}
+                <div class="menu-item">
+                    <div class="content">
+                        <h4>{{ item.name }}</h4>
+                        <p>{{ item.description[:80] if item.description else '' }}{% if item.description and item.description|length>80 %}...{% endif %}</p>
+                        <div class="price">${{ "%.2f"|format(item.price) }}</div>
+                        <button class="add-btn" data-id="{{ item.id }}" data-name="{{ item.name }}" data-price="{{ item.price }}">
+                            <i class="fas fa-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <p>No menu items available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+<!-- Bouncing Cart Icon -->
+<a href="{{ url_for('cart') }}" class="cart-icon">
+    <i class="fas fa-shopping-cart"></i>
+</a>
+
+<script>
+function toggleDropdown() {
+    const dropdown = document.getElementById('userDropdown');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+/* ADD TO CART — FIXED */
+document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+        const itemId = btn.dataset.id;
+
+        try {
+            const response = await fetch('/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    item_id: itemId,
+                    quantity: 1
+                })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                showFlash(data.message, 'success');
+            } else {
+                showFlash(data.error || 'Failed to add item', 'error');
+            }
+        } catch (err) {
+            console.error(err);
+            showFlash('Something went wrong. Try again.', 'error');
+        }
+    });
+});
+
+/* Flash helper */
+function showFlash(message, category) {
+    const container = document.querySelector('.flash-container');
+    const div = document.createElement('div');
+    div.className = `flash ${category}`;
+    div.innerText = message;
+    container.appendChild(div);
+
+    setTimeout(() => div.remove(), 3000);
+}
+</script>
+
+
+</body>
+</html>

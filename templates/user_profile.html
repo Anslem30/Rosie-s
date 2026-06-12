@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile - African Delights</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+    :root {
+        --color-primary: 17,122,63;
+        --color-primary-dark: 0,77,64;
+        --font-heading: 'Playfair Display', serif;
+        --font-body: 'Montserrat', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: var(--font-body);
+        background: #fff;
+        color: #333;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .profile-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .profile-header h1 {
+        color: #2c5f2d;
+        font-family: var(--font-heading);
+    }
+
+    .btn {
+        padding: 10px 20px;
+        background: #2c5f2d;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+    .btn:hover { background: #1f3f2a; }
+
+    .profile-container {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 2rem;
+    }
+
+    .profile-sidebar, .profile-form {
+        background: white;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        background: linear-gradient(135deg, #2c5f2d, #00a65a);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: white;
+        margin: 0 auto 1rem;
+        font-weight: bold;
+    }
+
+    .profile-info {
+        text-align: center;
+    }
+
+    .profile-info h2 {
+        color: #2c5f2d;
+        margin-bottom: 0.5rem;
+    }
+
+    .profile-info .username {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .profile-info .badge {
+        display: inline-block;
+        margin-top: 1rem;
+    }
+
+    .profile-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #eee;
+    }
+
+    .stat {
+        text-align: center;
+    }
+
+    .stat .value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #2c5f2d;
+    }
+
+    .stat .label {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 0.3rem;
+    }
+
+    .profile-actions {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #eee;
+    }
+
+    .profile-actions a {
+        display: block;
+        padding: 0.8rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        text-decoration: none;
+        color: #333;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .profile-actions a:hover {
+        background: #2c5f2d;
+        color: white;
+    }
+
+    .profile-form h2 {
+        color: #2c5f2d;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    .form-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .form-section h3 {
+        color: #2c5f2d;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    .form-group input, .form-group textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        outline: none;
+    }
+
+    .save-notice {
+        background: #fff3cd;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        border-left: 4px solid #ffc107;
+        color: #856404;
+    }
+
+    @media (max-width: 968px) {
+        .profile-container {
+            grid-template-columns: 1fr;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="profile-header">
+        <div>
+            <h1>My Profile</h1>
+            <p>Manage your personal information</p>
+        </div>
+        <a href="{{ url_for('user_dashboard') }}" class="btn">← Back to Dashboard</a>
+    </div>
+
+    <div class="profile-container">
+        <div class="profile-sidebar">
+            <div class="profile-avatar">
+                {{ user.full_name[0].upper() }}
+            </div>
+
+            <div class="profile-info">
+                <h2>{{ user.full_name }}</h2>
+                <p class="username">@{{ user.username }}</p>
+                <span class="badge" style="background: #e8f5e9; color: #2c5f2d;">✓ Verified Member</span>
+            </div>
+
+            <div class="profile-stats">
+                <div class="stat">
+                    <div class="value">{{ user.payment_methods|length if user.payment_methods else 0 }}</div>
+                    <div class="label">Payment Methods</div>
+                </div>
+                <div class="stat">
+                    <div class="value">📅</div>
+                    <div class="label">{{ user.created_at }}</div>
+                </div>
+            </div>
+
+            <div class="profile-actions">
+                <a href="{{ url_for('change_password') }}">🔒 Change Password</a>
+                <a href="{{ url_for('payment_methods') }}">💳 Payment Methods</a>
+                <a href="{{ url_for('my_orders') }}">📦 My Orders</a>
+            </div>
+        </div>
+
+        <div class="profile-form">
+            <h2>Personal Information</h2>
+
+            <div class="save-notice">
+                <strong>💡 Quick Tip:</strong> Keep your information up to date for faster checkout and accurate deliveries.
+            </div>
+
+            <form method="POST">
+                <div class="form-section">
+                    <h3>Basic Information</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Full Name *</label>
+                            <input type="text" name="full_name" value="{{ user.full_name }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" value="{{ user.username }}" disabled style="background: #f0f0f0; cursor: not-allowed;">
+                            <small style="color: #666;">Username cannot be changed</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Contact Information</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Email Address *</label>
+                            <input type="email" name="email" value="{{ user.email }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Phone Number *</label>
+                            <input type="tel" name="phone" value="{{ user.phone }}" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Delivery Address</h3>
+                    <div class="form-group">
+                        <label>Full Address *</label>
+                        <textarea name="address" rows="4" required>{{ user.address }}</textarea>
+                        <small style="color: #666;">Include street address, city, state, and postal code</small>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn" style="flex: 1;">💾 Save Changes</button>
+                    <button type="reset" class="btn" style="flex: 1; background: #6c757d;">↻ Reset</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

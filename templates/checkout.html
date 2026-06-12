@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Delta Kitchen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --color-bg: 255,255,255;
+      --color-text: 0,0,0;
+      --color-muted: 64,64,64;
+      --color-primary: 17,122,63;
+      --color-primary-light: 76,175,80;
+      --color-primary-dark: 0,77,64;
+      --color-red: 220,38,38;
+      --color-red-light: 239,68,68;
+      --color-red-dark: 185,28,28;
+      --color-primary-soft: 219,238,227;
+      --color-gradient: linear-gradient(135deg, rgb(17,122,63) 0%, rgb(220,38,38) 100%);
+      --color-gradient-alt: linear-gradient(135deg, rgb(220,38,38) 0%, rgb(17,122,63) 100%);
+      --color-glow: rgba(17,122,63, 0.3);
+      --color-border: 230,230,230;
+
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: rgb(var(--color-bg));
+      color: rgb(var(--color-text));
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .hero-header {
+      position: relative;
+      height: 35vh;
+      min-height: 260px;
+      background: linear-gradient(135deg, rgba(17,122,63,0.85) 0%, rgba(220,38,38,0.75) 50%, rgba(0,77,64,0.9) 100%),
+                  url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ff6b6b" stop-opacity="0.6"/><stop offset="100%" stop-color="%2300ff88" stop-opacity="0.2"/></radialGradient></defs><rect width="100%" height="100%" fill="url(%23a)"/><circle cx="200" cy="100" r="80" fill="%23ffffff" opacity="0.1"/><circle cx="800" cy="200" r="60" fill="%23ffffff" opacity="0.08"/><path d="M0 250 Q250 150 500 220 Q750 180 1000 250 L1000 300 L0 300 Z" fill="%23ffffff" opacity="0.05"/></svg>');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 40%);
+      animation: heroFloat 8s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    @keyframes heroFloat {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      33% { transform: translateY(-15px) scale(1.02); }
+      66% { transform: translateY(8px) scale(0.98); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 900px;
+      padding: 0 20px;
+      animation: slideInUp 1s ease-out;
+    }
+
+    .hero-logo {
+      width: 220px;
+      height: auto;
+      margin: 0 auto 18px;
+      display: block;
+    }
+
+    .hero-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.8) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 40px rgba(255,255,255,0.3);
+      margin-bottom: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.95);
+      font-weight: 400;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .checkout-container {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 968px) {
+      .checkout-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .checkout-form, .order-review {
+      background: rgba(255,255,255,0.8);
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(17,122,63,0.1);
+    }
+
+    h2 {
+      font-family: var(--font-heading);
+      color: rgb(var(--color-primary));
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      border-bottom: 2px solid rgba(17,122,63,0.2);
+      padding-bottom: 0.75rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: rgb(var(--color-muted));
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="tel"],
+    .form-group textarea {
+      width: 100%;
+      padding: 0.85rem;
+      border: 1px solid rgba(17,122,63,0.2);
+      border-radius: 12px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: rgb(var(--color-primary));
+      box-shadow: 0 0 0 4px rgba(17,122,63,0.15);
+    }
+
+    .form-group input[type="radio"] {
+      margin-right: 0.5rem;
+    }
+
+    .review-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(17,122,63,0.1);
+    }
+
+    .review-item:last-of-type {
+      border-bottom: 2px solid rgba(17,122,63,0.2);
+    }
+
+    .review-item-info strong {
+      display: block;
+      font-size: 1.05rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .review-item-info p {
+      color: rgb(var(--color-muted));
+      font-size: 0.9rem;
+    }
+
+    .review-total {
+      display: flex;
+      justify-content: space-between;
+      padding: 1.5rem 0 0.5rem;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: rgb(var(--color-primary));
+    }
+
+    .btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+      margin-top: 1rem;
+      background: var(--color-gradient);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 60px rgba(17,122,63,0.35);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgb(var(--color-primary));
+      text-decoration: none;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      transition: gap 0.3s;
+    }
+
+    .back-link:hover {
+      gap: 0.75rem;
+    }
+
+    /* Alerts (same theme as menu) */
+    .alerts-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      max-width: 400px;
+    }
+
+    .alert {
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: slideInRight 0.4s ease-out;
+      font-weight: 500;
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(17,122,63,0.2);
+    }
+
+    .alert i {
+      font-size: 1.2rem;
+    }
+
+    .alert-success {
+      border-left: 4px solid rgb(var(--color-primary));
+      color: rgb(var(--color-muted));
+    }
+
+    .alert-error {
+      border-left: 4px solid rgb(var(--color-red));
+      color: rgb(var(--color-muted));
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hero-header">
+    <div class="hero-content">
+      <img src="/static/images/rosies.png" class="hero-logo" alt="Rosie's Logo">
+      <h1 class="hero-title"><i class="fas fa-shopping-cart"></i> Checkout</h1>
+      <p class="hero-subtitle">Complete your order</p>
+    </div>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="alerts-container">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">
+            {% if category == 'error' %}
+              <i class="fas fa-exclamation-circle"></i>
+            {% elif category == 'success' %}
+              <i class="fas fa-check-circle"></i>
+            {% else %}
+              <i class="fas fa-info-circle"></i>
+            {% endif %}
+            <span>{{ message }}</span>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="container">
+    <a href="{{ url_for('menu') }}" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back to Menu
+    </a>
+
+    <div class="checkout-container">
+      <div class="checkout-form">
+        <h2>Delivery Information</h2>
+        <form action="{{ url_for('place_order') }}" method="POST">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" name="customer_name" value="{{ user.full_name if user else '' }}" required>
+          </div>
+
+          <div class="form-group">
+            <label>Phone Number *</label>
+            <input type="tel" name="customer_phone" value="{{ user.phone if user else '' }}" required>
+          </div>
+
+          <div class="form-group">
+            <label>Delivery Address *</label>
+            <textarea name="customer_address" rows="3" required>{{ user.address if user else '' }}</textarea>
+          </div>
+
+          <h2 style="margin-top: 2rem;">Payment Method</h2>
+
+          <div class="form-group">
+            <label>
+              <input type="radio" name="payment_method" value="cash" checked> Cash on Delivery
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input type="radio" name="payment_method" value="card"> Credit/Debit Card
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input type="radio" name="payment_method" value="mobile"> Mobile Money
+            </label>
+          </div>
+
+          <button type="submit" class="btn">
+            <i class="fas fa-check-circle"></i> Place Order
+          </button>
+        </form>
+      </div>
+
+      <div class="order-review">
+        <h2>Order Summary</h2>
+        {% for item in cart_items %}
+        <div class="review-item">
+          <div class="review-item-info">
+            <strong>{{ item.name }}</strong>
+            <p>Qty: {{ item.quantity }}</p>
+          </div>
+          <span>£{{ "%.2f"|format(item.total) }}</span>
+        </div>
+        {% endfor %}
+
+        <div class="review-item">
+          <span>Subtotal:</span>
+          <span>£{{ "%.2f"|format(total) }}</span>
+        </div>
+
+        <div class="review-item">
+          <span>Delivery Fee:</span>
+          <span>£3.50</span>
+        </div>
+
+        <div class="review-total">
+          <span>Total:</span>
+          <span>£{{ "%.2f"|format(total + 3.50) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Auto-hide alerts after 5 seconds
+    setTimeout(() => {
+      const alerts = document.querySelectorAll('.alert');
+      alerts.forEach(alert => {
+        alert.style.animation = 'slideInRight 0.4s ease-out reverse';
+        setTimeout(() => alert.remove(), 400);
+      });
+    }, 5000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard – Rosie's</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+  --green: 17,122,63;
+  --red: 220,38,38;
+  --red-dark: 185,28,28;
+  --green-dark: 0,77,64;
+  --soft: 245,245,245;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Montserrat', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-body);
+  background: #fff;
+  color: #333;
+}
+
+/* HEADER */
+.admin-header {
+  background: linear-gradient(135deg,
+    rgba(var(--green),0.9),
+    rgba(var(--red),0.9)
+  );
+  padding: 30px 20px;
+  color: #fff;
+}
+
+.admin-header-inner {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-header h1 {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+}
+
+.admin-logout {
+  padding: 10px 20px;
+  border-radius: 50px;
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.25s;
+  border: 2px solid rgba(255,255,255,0.4);
+}
+.admin-logout:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+}
+
+/* PAGE */
+.page {
+  max-width: 1200px;
+  margin: 80px auto;
+  padding: 0 20px;
+}
+
+/* STATS */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.admin-card {
+  background: rgba(var(--soft),0.9);
+  border-radius: 20px;
+  padding: 26px 20px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  transition: 0.3s;
+  border: 1px solid rgba(var(--green),0.15);
+}
+
+.admin-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 40px rgba(var(--green),0.15);
+}
+
+.admin-card h3 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: rgb(var(--green));
+}
+
+/* SECTIONS */
+.section {
+  background: rgba(var(--soft),0.9);
+  border-radius: 22px;
+  padding: 24px;
+  backdrop-filter: blur(15px);
+  margin-bottom: 40px;
+  border: 1px solid rgba(var(--green),0.15);
+}
+
+.section h2 {
+  font-family: var(--font-heading);
+  color: rgb(var(--green));
+  margin-bottom: 16px;
+}
+
+/* TABLE */
+.table-wrapper { overflow-x: auto; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 700;
+  color: rgb(var(--green-dark));
+}
+
+tbody td {
+  padding: 12px;
+  font-weight: 500;
+}
+
+tbody tr:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+/* BADGES */
+.badge {
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.bg-pending { background: rgb(var(--red)); }
+.bg-preparing { background: rgb(var(--red-dark)); }
+.bg-out { background: linear-gradient(135deg, rgba(var(--green),1), rgba(var(--green-dark),1)); }
+.bg-delivered { background: rgb(var(--green)); }
+
+/* ACTION BUTTONS */
+.admin-actions a {
+  display: block;
+  margin-bottom: 6px;
+  padding: 6px 12px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  color: #fff;
+  text-decoration: none;
+}
+
+.btn-warning { background: rgb(var(--red)); }
+.btn-primary { background: rgb(var(--green)); }
+.btn-success { background: rgb(var(--green-dark)); }
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+}
+.empty-state h3 {
+  font-family: var(--font-heading);
+  color: rgb(var(--green));
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="admin-header">
+  <div class="admin-header-inner">
+    <h1>Rosie's Admin Dashboard</h1>
+    <a href="{{ url_for('admin_logout') }}" class="admin-logout">
+      <i class="fas fa-sign-out-alt"></i> Logout
+    </a>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- STATS -->
+  <div class="admin-stats">
+    <div class="admin-card">
+      <h3>{{ orders|length }}</h3>
+      <p>Total Orders</p>
+    </div>
+    <div class="admin-card">
+      <h3>{{ users|length }}</h3>
+      <p>Registered Users</p>
+    </div>
+    <div class="admin-card">
+      <h3>{{ orders|selectattr('status','equalto','Pending')|list|length }}</h3>
+      <p>Pending Orders</p>
+    </div>
+    <div class="admin-card">
+      <h3>{{ orders|selectattr('status','equalto','Delivered')|list|length }}</h3>
+      <p>Delivered</p>
+    </div>
+  </div>
+
+  <!-- ORDERS -->
+  <div class="section">
+    <h2>Recent Orders</h2>
+
+    {% if orders %}
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Customer</th>
+            <th>Phone</th>
+            <th>Items</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Placed</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders|reverse %}
+          <tr>
+            <td>#{{ order.id }}</td>
+            <td>{{ order.customer_name }}</td>
+            <td>{{ order.customer_phone }}</td>
+            <td>
+              {% for item in order.items %}
+                {{ item.name }} ({{ item.quantity }}x)<br>
+              {% endfor %}
+            </td>
+            <td>${{ "%.2f"|format(order.total) }}</td>
+
+            <td>
+              <span class="badge
+                {% if order.status == 'Pending' %}bg-pending{% endif %}
+                {% if order.status == 'Preparing' %}bg-preparing{% endif %}
+                {% if order.status == 'Out for Delivery' %}bg-out{% endif %}
+                {% if order.status == 'Delivered' %}bg-delivered{% endif %}
+              ">
+                {{ order.status }}
+              </span>
+            </td>
+
+            <td>{{ order.created_at }}</td>
+
+            <td class="admin-actions">
+              <a href="{{ url_for('update_order_status', order_id=order.id, status='Preparing') }}" class="btn-warning">Preparing</a>
+              <a href="{{ url_for('update_order_status', order_id=order.id, status='Out for Delivery') }}" class="btn-primary">Out</a>
+              <a href="{{ url_for('update_order_status', order_id=order.id, status='Delivered') }}" class="btn-success">Delivered</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <h3>No orders yet</h3>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- USERS -->
+  <div class="section">
+    <h2>Registered Users</h2>
+
+    {% if users %}
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Joined</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in users|reverse %}
+          <tr>
+            <td>#{{ user.id }}</td>
+            <td>{{ user.full_name }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.created_at }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <h3>No users registered yet</h3>
+    </div>
+    {% endif %}
+  </div>
+
+</div>
+
+</body>
+</html>

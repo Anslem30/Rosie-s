@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rosie's - Authentic Nigerian Cuisine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+    <!-- Plus Jakarta Sans Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-green: #117a3f;
+            --secondary-green: #4caf50;
+            --dark-green: #004d40;
+            --light-green: #b8ff94;
+            --primary-red: #dc2626;
+            --secondary-red: #ef4444;
+            --dark-red: #b91c1c;
+            --gradient-primary: linear-gradient(135deg, #117a3f 0%, #dc2626 100%);
+            --gradient-alt: linear-gradient(135deg, #dc2626 0%, #117a3f 100%);
+            --gradient-dark: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
+            --gradient-card: linear-gradient(145deg, rgba(17, 122, 63, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%);
+            --shadow-glow: 0 20px 60px rgba(17, 122, 63, 0.2), 0 20px 60px rgba(220, 38, 38, 0.15);
+            --shadow-intense: 0 30px 80px rgba(17, 122, 63, 0.25), 0 30px 80px rgba(220, 38, 38, 0.2);
+        }
+        * { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body {
+            background: #ffffff;
+            color: #333333;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Styles */
+        .navbar {
+            background: linear-gradient(135deg, rgba(17, 122, 63, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%) !important;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .navbar-brand img {
+            width: auto;
+            height: 60px;
+            max-width: 80px;
+        }
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .navbar-nav .nav-link:hover {
+            color: #ffeb3b !important;
+            transform: scale(1.05);
+        }
+        .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: #ffeb3b;
+            transition: width 0.3s ease;
+        }
+        .navbar-nav .nav-link:hover::after {
+            width: 80%;
+        }
+        .btn-auth {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #117a3f;
+            padding: 8px 20px;
+            font-weight: 700;
+            border-radius: 25px;
+            margin: 0 0.25rem;
+            transition: all 0.3s ease;
+        }
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+            background: #ffffff;
+            color: #dc2626;
+        }
+
+        /* Hero Section - Full Screen Images */
+        .hero-slide {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .slide-1 {
+            background-image: linear-gradient(rgba(17, 122, 63, 0.3), rgba(220, 38, 38, 0.3)), url('static/images/jrice.jpg');
+        }
+        .slide-2 {
+            background-image: linear-gradient(rgba(220, 38, 38, 0.3), rgba(17, 122, 63, 0.3)), url('static/images/steww.jpg');
+        }
+        .slide-3 {
+            background-image: linear-gradient(rgba(17, 122, 63, 0.3), rgba(220, 38, 38, 0.3)), url('static/images/jrice.jpg');
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(135deg, rgba(17, 122, 63, 0.2), rgba(220, 38, 38, 0.3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-slide::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(17, 122, 63, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(220, 38, 38, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(17, 122, 63, 0.1) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(1deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
+        }
+
+        .carousel-caption {
+            z-index: 2;
+            position: relative;
+            animation: slideInUp 1s ease-out;
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 50px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(17, 122, 63, 0.3);
+            max-width: 800px;
+        }
+        .carousel-caption h1 {
+            text-shadow: 0 0 30px rgba(17, 122, 63, 0.5);
+            letter-spacing: 2px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 3.5rem;
+        }
+        .carousel-caption p {
+            color: #e8f4f8;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            font-size: 1.4rem;
+            font-weight: 400;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+        .btn-hero {
+            background: var(--gradient-primary);
+            border: none;
+            color: #ffffff;
+            padding: 18px 45px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-radius: 50px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: var(--gradient-alt);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+        .btn-hero:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: var(--shadow-intense);
+            color: #ffffff;
+        }
+        .btn-hero:hover::before { left: 0; }
+
+        /* Carousel Controls */
+        .carousel-control-prev, .carousel-control-next {
+            width: 5%;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+        .carousel-control-prev-icon, .carousel-control-next-icon {
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            padding: 25px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.1);
+            width: 60px;
+            height: 60px;
+        }
+        .carousel-control-prev-icon:hover, .carousel-control-next-icon:hover {
+            transform: scale(1.2);
+            box-shadow: var(--shadow-glow);
+        }
+        .carousel-indicators { bottom:40px;}
+        .carousel-indicators button {
+            width:20px;
+            height:20px;
+            border-radius:50%;
+            background:rgba(255,255,255,0.3);
+            border:2px solid transparent;
+            transition:all 0.3s ease;
+            margin:0 10px;
+        }
+        .carousel-indicators button.active {
+            background: var(--gradient-primary);
+            border-color:#fff;
+            transform:scale(1.3);
+            box-shadow:0 0 20px rgba(17,122,63,0.6), 0 0 20px rgba(220,38,38,0.4);
+        }
+
+        /* Generic sections */
+        .section-spacing { padding:120px 0; position:relative; }
+        .section-title {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing:3px;
+            font-weight:800;
+            position:relative;
+            display:inline-block;
+            text-transform: uppercase;
+        }
+        .section-title::after {
+            content:'';
+            position:absolute;
+            bottom:-10px;
+            left:50%;
+            transform:translateX(-50%);
+            width:80px;
+            height:4px;
+            background:var(--gradient-primary);
+            border-radius:2px;
+        }
+
+        /* Feature Cards */
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(17,122,63,0.2);
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position:relative;
+            overflow:hidden;
+            backdrop-filter: blur(20px);
+            box-shadow:0 8px 32px rgba(0,0,0,0.1);
+        }
+        .feature-card::before {
+            content:'';
+            position:absolute;
+            top:0;
+            left:0;
+            width: 50%;
+            height:4px;
+            background: linear-gradient(90deg, #117a3f 0%, #117a3f 100%);
+            transform:scaleX(0);
+            transition:transform 0.4s ease;
+        }
+        .feature-card::after {
+            content:'';
+            position:absolute;
+            top:0;
+            right:0;
+            width: 50%;
+            height:4px;
+            background: linear-gradient(90deg, #dc2626 0%, #dc2626 100%);
+            transform:scaleX(0);
+            transition:transform 0.4s ease;
+        }
+        .feature-card:hover {
+            transform:translateY(-20px) scale(1.02);
+            box-shadow: var(--shadow-intense);
+            border-color:rgba(17,122,63,0.4);
+        }
+        .feature-card:hover::before,
+        .feature-card:hover::after {
+            transform:scaleX(1);
+        }
+        .feature-icon {
+            font-size:3rem;
+            margin-bottom:20px;
+            display:block;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter:drop-shadow(0 8px 16px rgba(17,122,63,0.3));
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .feature-card:hover .feature-icon {
+            transform:scale(1.15) rotate(5deg);
+            filter:drop-shadow(0 12px 24px rgba(220,38,38,0.4));
+        }
+        .feature-title {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing:1.5px;
+            font-weight:700;
+            margin-bottom:10px;
+            font-size:1.1rem;
+            text-transform: uppercase;
+        }
+        .feature-text {
+            color:#666666;
+            line-height:1.7;
+            font-weight:400;
+            font-size:0.95rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background:var(--gradient-dark);
+            position:relative;
+            overflow:hidden;
+        }
+        .cta-section::before {
+            content:'';
+            position:absolute;
+            top:0;
+            left:0;
+            right:0;
+            bottom:0;
+            background:
+                radial-gradient(circle at 30% 70%, rgba(17,122,63,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(220,38,38,0.15) 0%,transparent 50%);
+        }
+        .btn-outline-modern {
+            border:2px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        var(--gradient-primary) border-box;
+            padding:16px 40px;
+            font-weight:600;
+            letter-spacing:1px;
+            border-radius:50px;
+            transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position:relative;
+            overflow:hidden;
+        }
+        .btn-outline-modern span {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .btn-outline-modern::before {
+            content:'';
+            position:absolute;
+            top:0;
+            left:-100%;
+            width:100%;
+            height:100%;
+            background:var(--gradient-primary);
+            transition:left 0.4s ease;
+            z-index:-1;
+        }
+        .btn-outline-modern:hover {
+            transform:translateY(-5px);
+            box-shadow:var(--shadow-glow);
+        }
+        .btn-outline-modern:hover span {
+            -webkit-text-fill-color: #ffffff;
+        }
+        .btn-outline-modern:hover::before{left:0;}
+
+        /* Map Section */
+        .map-section {
+            background: #f8f9fa;
+            padding: 80px 0;
+        }
+        .map-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-glow);
+            border: 1px solid rgba(17, 122, 63, 0.2);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-top: 1px solid rgba(17, 122, 63, 0.2);
+            padding: 60px 0 30px 0;
+            color: #ffffff;
+        }
+        .footer h5 {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        .footer p, .footer a {
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .footer a:hover {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .footer-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(17, 122, 63, 0.3), rgba(220, 38, 38, 0.3), transparent);
+            margin: 40px 0 20px 0;
+        }
+        .social-links a {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(17, 122, 63, 0.3);
+            border-radius: 50%;
+            line-height: 43px;
+            text-align: center;
+            margin: 0 8px;
+            transition: all 0.3s ease;
+            color: #ffffff;
+        }
+        .social-links a:hover {
+            background: var(--gradient-primary);
+            color: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        @keyframes slideInUp {from{ opacity:0; transform:translateY(60px);} to{ opacity:1; transform:translateY(0);}}
+        @keyframes pulse { 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.05);}}
+        .pulse-animation {animation:pulse 2s infinite;}
+
+        @media (max-width: 768px) {
+            .carousel-caption h1 {font-size:2rem; letter-spacing:1px;}
+            .carousel-caption p {font-size:1rem;}
+            .carousel-caption {padding:20px; max-width: 90%; margin: 0 auto;}
+            .hero-slide {height:100vh; min-height: 600px;}
+            .btn-hero {padding:12px 28px; font-size:0.9rem;}
+            .section-spacing {padding:60px 0;}
+            .feature-icon {font-size:2.5rem;}
+            .navbar-nav {text-align: center; padding: 1rem 0;}
+            .navbar-nav .nav-link {margin: 0.5rem 0;}
+            .btn-auth {margin: 0.5rem 0.25rem; display: inline-block; width: auto;}
+            .navbar-brand {margin: 0 auto;}
+            .navbar-brand img {height: 50px; max-width: 70px;}
+            .hero-logo {width: 180px; margin: 0 auto;}
+            .overlay {width: 100%;}
+            .navbar-toggler {
+                border-color: rgba(255, 255, 255, 0.5);
+            }
+            .navbar-toggler-icon {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.95)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            }
+            .feature-card {
+                margin-bottom: 1.5rem;
+            }
+            .d-flex.gap-4 {
+                gap: 1rem !important;
+                flex-direction: column;
+            }
+            .d-flex.flex-wrap {
+                justify-content: center;
+            }
+            .btn-outline-modern, .btn-hero {
+                width: 100%;
+                margin-bottom: 0.5rem;
+                text-align: center;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .display-4 {
+                font-size: 2rem;
+            }
+            .row.g-4 {
+                text-align: center;
+            }
+            .col-lg-6 {
+                text-align: center;
+            }
+            .text-center {
+                text-align: center !important;
+            }
+            .navbar .container {
+                text-align: center;
+            }
+            .navbar-collapse {
+                text-align: center;
+            }
+        }
+
+        .glass {
+            background:rgba(255,255,255,0.1);
+            backdrop-filter:blur(10px);
+            border:1px solid rgba(255,255,255,0.2);
+        }
+        .glow-text {
+            text-shadow:0 0 20px rgba(17,122,63,0.5), 0 0 30px rgba(220,38,38,0.3);
+        }
+        .hero-logo {
+            width: 220px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* Price styling with gradient */
+        .feature-card .fw-bold[style*="color"] {
+            background: var(--gradient-primary) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+        }
+        .carousel-caption {
+        position: relative !important;
+        top: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        text-align: center;
+        margin: 0 auto;
+    }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="/static/images/rosies.png" alt="Rosie's Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#hero">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#how-it-works">How It Works</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('menu') }}">Menu</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#testimonial">Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#app">App</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                {% if user %}
+                <a href="{{ url_for('user_dashboard') }}" class="btn btn-auth">
+                    <i class="fas fa-user-circle me-1"></i>Dashboard
+                </a>
+                <a href="{{ url_for('user_logout') }}" class="btn btn-auth">
+                    <i class="fas fa-sign-out-alt me-1"></i>Logout
+                </a>
+                {% else %}
+                <a href="{{ url_for('user_login') }}" class="btn btn-auth">
+                    <i class="fas fa-sign-in-alt me-1"></i>Login
+                </a>
+                <a href="{{ url_for('user_register') }}" class="btn btn-auth">
+                    <i class="fas fa-user-plus me-1"></i>Register
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<!-- Hero Section with Full Screen Slideshow -->
+<div id="hero" class="position-relative">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="7000">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="hero-slide slide-1">
+                    <div class="overlay">
+                        <div class="carousel-caption text-center glass">
+                            <h1 class="fw-bold text-uppercase glow-text">
+                                <img src="/static/images/rosies.png" alt="Rosie's Logo" class="hero-logo">
+                            </h1>
+                            <p class="lead fst-italic">
+                                Authentic Nigerian meals delivered right to your doorstep with love and tradition
+                            </p>
+                            <a class="btn btn-hero shadow-lg pulse-animation" href="{{ url_for('menu') }}">
+                                <i class="fa-solid fa-utensils me-2"></i>Explore Menu
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="hero-slide slide-2">
+                    <div class="overlay">
+                        <div class="carousel-caption text-center glass">
+                            <h1 class="fw-bold text-uppercase glow-text">Fresh &amp; Delicious Meals</h1>
+                            <p class="lead fst-italic">Prepared with the finest local ingredients and time-honored recipes passed down through generations</p>
+                            <a class="btn btn-hero shadow-lg pulse-animation" href="{{ url_for('menu') }}">
+                                <i class="fa-solid fa-leaf me-2"></i>Order Fresh
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="hero-slide slide-3">
+                    <div class="overlay">
+                        <div class="carousel-caption text-center glass">
+                            <h1 class="fw-bold text-uppercase glow-text">Lightning Fast Delivery</h1>
+                            <p class="lead fst-italic">Hot, fresh meals delivered to your doorstep with speed and care you can trust</p>
+                            <a class="btn btn-hero shadow-lg pulse-animation" href="{{ url_for('menu') }}">
+                                <i class="fa-solid fa-rocket me-2"></i>Order Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works" class="section-spacing">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">How It Works</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 text-center">
+                    <i class="fa-regular fa-clock feature-icon"></i>
+                    <h5 class="feature-title">Easy Order</h5>
+                    <p class="feature-text">
+                        Browse our curated menu, customize your favorite Nigerian dishes, and place your order in seconds.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 text-center">
+                    <i class="fa-solid fa-award feature-icon"></i>
+                    <h5 class="feature-title">Best Quality</h5>
+                    <p class="feature-text">
+                        Our chefs use fresh, locally sourced ingredients to recreate authentic Delta flavors every time.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 text-center">
+                    <i class="fa-solid fa-truck-fast feature-icon"></i>
+                    <h5 class="feature-title">Fast Delivery</h5>
+                    <p class="feature-text">
+                        Hot meals delivered quickly so you enjoy your food just as it leaves the kitchen.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="section-spacing bg-light">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="feature-card p-4">
+                    <img src="static/images/rosemary.jpg" class="img-fluid rounded-4" alt="About Delta Kitchen">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h2 class="section-title mb-4">About Rosie's</h2>
+                <h3 class="mb-3 fw-bold" style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 2.5rem;">
+                    500+ Orders Daily
+                </h3>
+                <p class="lead text-muted mb-4">
+                    Rosie's brings the warmth of Nigerian home cooking to your doorstep. From smoky Jollof to spicy Suya and rich soups, every meal is prepared with heritage recipes and modern hygiene standards.
+                </p>
+                <p class="text-muted mb-4">
+                    Whether you are craving comfort food or trying West African cuisine for the first time, our menu offers something for everyone, with vegetarian and protein-rich options.
+                </p>
+                <a href="{{ url_for('menu') }}" class="btn btn-hero">
+                    <i class="fa-solid fa-utensils me-2"></i>Explore Full Menu
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MENU PREVIEW -->
+<section id="menu-preview" class="section-spacing">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Popular Dishes</h2>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card h-100">
+                    <img src="static/images/jrice.jpg" class="img-fluid rounded-top-4" alt="Jollof Rice">
+                    <div class="p-4">
+                        <h5 class="fw-bold mb-2">Smoky Jollof Rice</h5>
+                        <p class="text-muted mb-3">Served with grilled chicken and fried plantain.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold" style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">$12.00</span>
+                            <a href="{{ url_for('menu') }}" class="btn btn-outline-modern btn-sm">
+                                <span>Order Now</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100">
+                    <img src="static/images/egusi.jpg" class="img-fluid rounded-top-4" alt="Egusi Soup">
+                    <div class="p-4">
+                        <h5 class="fw-bold mb-2">Egusi Soup</h5>
+                        <p class="text-muted mb-3">Rich melon seed soup with assorted meats.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold" style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">$18.00</span>
+                            <a href="{{ url_for('menu') }}" class="btn btn-outline-modern btn-sm">
+                                <span>Order Now</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100">
+                    <img src="static/images/suya.jpg" class="img-fluid rounded-top-4" alt="Suya">
+                    <div class="p-4">
+                        <h5 class="fw-bold mb-2">Beef Suya Platter</h5>
+                        <p class="text-muted mb-3">Spicy skewered beef with onions and tomatoes.</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="fw-bold" style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">$15.00</span>
+                            <a href="{{ url_for('menu') }}" class="btn btn-outline-modern btn-sm">
+                                <span>Order Now</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section id="testimonial" class="section-spacing bg-light">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <h2 class="section-title mb-4">What Our Customers Say</h2>
+                <p class="lead text-muted mb-4">
+                    "Best Jollof in the city! Delivery is always on time and the food feels homemade. Rosie's has become part of my weekly routine."
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <div class="feature-card p-4 text-center">
+                    <i class="fa-solid fa-quote-left feature-icon mb-3"></i>
+                    <p class="text-muted mb-3">
+                        "From packaging to taste, everything is on point. My family loves the variety of Nigerian dishes on the menu."
+                    </p>
+                    <p class="mb-0 fw-bold" style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Rated 4.9/5 by our customers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section-spacing">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq1">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1">
+                                What areas do you deliver to?
+                            </button>
+                        </h2>
+                        <div id="faqCollapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We deliver across major parts of the city. Enter your address at checkout to confirm coverage.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq2">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2">
+                                How long does delivery take?
+                            </button>
+                        </h2>
+                        <div id="faqCollapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Average delivery time is 30–45 minutes depending on distance and order volume.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq3">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse3">
+                                Do you offer vegetarian options?
+                            </button>
+                        </h2>
+                        <div id="faqCollapse3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, we offer vegetarian and vegan-friendly meals, including plantain dishes, veggie stews, and more.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="faq4">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse4">
+                                Can I schedule an order in advance?
+                            </button>
+                        </h2>
+                        <div id="faqCollapse4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                You can place orders ahead of time and select a preferred delivery window at checkout.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section id="menu" class="py-5 cta-section">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <h3 class="display-4 fw-bold mb-5 glow-text">
+                    Freshly Homemade Foods
+                </h3>
+                <p class="lead mb-5 text-light fs-4">
+                    Join thousands of satisfied customers who trust Rosie's for their daily culinary adventures and taste the difference quality makes.
+                </p>
+                <div class="d-flex justify-content-center flex-wrap gap-4">
+                    <a href="{{ url_for('cart') }}" class="btn btn-outline-modern btn-lg">
+                        <span><i class="fa-solid fa-cart-shopping me-2"></i>View Your Cart</span>
+                    </a>
+                    <a href="{{ url_for('menu') }}" class="btn btn-hero btn-lg">
+                        <i class="fa-solid fa-utensils me-2"></i>Browse Full Menu
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- APP SECTION -->
+<section id="app" class="section-spacing bg-light">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <div class="feature-card p-4">
+                    <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=800&q=80"
+                         class="img-fluid rounded-4" alt="Delta Kitchen App">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h2 class="section-title mb-4">Coming soon</h2>
+                <p class="lead text-muted mb-4">
+                    Order faster with the Rosie's app. Save your favourites, track deliveries in real-time, and enjoy exclusive app-only deals.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#" class="btn btn-hero">
+                        <i class="fa-brands fa-google-play me-2"></i>Google Play
+                    </a>
+                    <a href="#" class="btn btn-outline-modern">
+                        <span><i class="fa-brands fa-apple me-2"></i>App Store</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Google Maps Section -->
+<section id="contact" class="map-section">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-12">
+                <h2 class="display-4 fw-bold text-uppercase section-title mb-4">
+                    Find Us
+                </h2>
+                <p class="lead text-muted fs-5">Visit our location or get in touch with us</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="map-container">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7248273.608470384!2d-89.09805350033892!3d27.494276216630123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88c1766591562abf%3A0xf72e13d35bc74ed0!2sFlorida%2C%20USA!5e0!3m2!1sen!2suk!4v1758119246596!5m2!1sen!2suk"
+                        width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <h5><i class="fas fa-utensils me-2"></i>Rosie's</h5>
+                <p class="mb-3">Bringing authentic Nigerian cuisine to your doorstep with premium quality ingredients and exceptional service.</p>
+                <div class="social-links">
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.tiktok.com/@rosies_cuisine_?is_from_webapp=1&sender_device=pc" title="Tiktok"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://instagram.com/rosies_cuisine_us?igsh=cnk0cmN3GM3dXZ3" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('menu') }}">Menu</a></li>
+                    <li><a href="#Deals">Deals</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="#cart">Cart</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5>Contact Info</h5>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-map-marker-alt me-2"></i>xxxx</li>
+                    <li><i class="fas fa-phone me-2"></i>xxxx</li>
+                    <li><i class="fas fa-envelope me-2"></i>xxxx</li>
+                    <li><i class="fas fa-clock me-2"></i>Mon-Sun: 8AM - 10PM</li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <h5>Legal</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy Policy</a></li>
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of Service</a></li>
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#refundModal">Refund Policy</a></li>
+                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#cookieModal">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="row">
+            <div class="col-12 text-center">
+                <p>&copy; 2025 Rosie's. All rights reserved. Made with <i class="fas fa-heart text-danger"></i> in United States</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">
+                    <i class="fas fa-sign-in-alt me-2"></i>Login to Your Account
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="mb-3">
+                        <label for="loginEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="loginEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="loginPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="loginPassword" required>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="rememberMe">
+                        <label class="form-check-label" for="rememberMe">Remember me</label>
+                    </div>
+                    <button type="submit" class="btn btn-hero w-100 mb-3">
+                        <i class="fas fa-sign-in-alt me-2"></i>Login
+                    </button>
+                    <div class="text-center">
+                        <a href="#" class="text-decoration-none" style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Forgot Password?</a>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <p class="mb-0">Don't have an account?
+                    <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal" style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Register here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="registerModalLabel">
+                    <i class="fas fa-user-plus me-2"></i>Create New Account
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstName" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerEmail" class="form-label">Email Address</label>
+                        <input type="email" class="form-control" id="registerEmail" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="phoneNumber" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="registerPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="registerPassword" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirmPassword" required>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                        <label class="form-check-label" for="agreeTerms">
+                            I agree to the <a href="#" style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Terms of Service</a> and <a href="#" style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Privacy Policy</a>
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-hero w-100">
+                        <i class="fas fa-user-plus me-2"></i>Create Account
+                    </button>
+                </form>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <p class="mb-0">Already have an account?
+                    <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal" style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Privacy Policy Modal -->
+<div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="privacyModalLabel">Privacy Policy</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Information We Collect</h6>
+                <p>We collect information you provide directly to us, such as when you create an account, place an order, or contact us for support.</p>
+
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">How We Use Your Information</h6>
+                <p>We use your information to process orders, communicate with you, and improve our services.</p>
+
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Information Security</h6>
+                <p>We implement appropriate security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Contact Us</h6>
+                <p>If you have questions about this Privacy Policy, please contact us at privacy@rosiescuisine.com</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Terms of Service Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsModalLabel">Terms of Service</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Acceptance of Terms</h6>
+                <p>By accessing and using Rosie's services, you accept and agree to be bound by these Terms of Service.</p>
+
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Service Description</h6>
+                <p>Rosie's provides online food ordering and delivery services for authentic Nigerian cuisine.</p>
+
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">User Responsibilities</h6>
+                <p>Users are responsible for providing accurate information and complying with all applicable laws when using our services.</p>
+
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Limitation of Liability</h6>
+                <p>Rosie's shall not be liable for any indirect, incidental, special, or consequential damages.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Refund Policy Modal -->
+<div class="modal fade" id="refundModal" tabindex="-1" aria-labelledby="refundModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="refundModalLabel">Refund Policy</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Refund Eligibility</h6>
+                <p>Refunds are available for orders that are not delivered, significantly delayed, or do not meet our quality standards.</p>
+
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Refund Process</h6>
+                <p>To request a refund, contact our customer service within 24 hours of your order. Refunds will be processed within 5-7 business days.</p>
+
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Non-Refundable Items</h6>
+                <p>Custom orders and items consumed are generally non-refundable unless there are quality issues.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cookie Policy Modal -->
+<div class="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="cookieModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cookieModalLabel">Cookie Policy</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">What Are Cookies</h6>
+                <p>Cookies are small text files stored on your device when you visit our website to enhance your browsing experience.</p>
+
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">How We Use Cookies</h6>
+                <p>We use cookies to remember your preferences, analyze site traffic, and provide personalized content and advertisements.</p>
+
+                <h6 style="background: linear-gradient(135deg, #117a3f 0%, #dc2626 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Cookie Management</h6>
+                <p>You can control and delete cookies through your browser settings. However, disabling cookies may affect website functionality.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Preload images for smooth transitions
+        const imageUrls = [
+            'static/images/ricee.jpg',
+            'static/images/moi moi.jpg',
+            'static/images/chicken.jpg'
+        ];
+
+        imageUrls.forEach(function(url) {
+            const img = new Image();
+            img.src = url;
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'linear-gradient(135deg, rgba(17, 122, 63, 0.98) 0%, rgba(220, 38, 38, 0.98) 100%)';
+                navbar.style.backdropFilter = 'blur(20px)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.4)';
+            } else {
+                navbar.style.background = 'linear-gradient(135deg, rgba(17, 122, 63, 0.95) 0%, rgba(220, 38, 38, 0.95) 100%)';
+                navbar.style.backdropFilter = 'blur(20px)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+            }
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.carousel-item.active .hero-slide');
+            if (parallax) {
+                const speed = scrolled * 0.3;
+                parallax.style.transform = `translateY(${speed}px)`;
+            }
+        });
+
+        // Staggered feature animations
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry, index) {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.animation = 'slideInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+                        entry.target.style.opacity = '1';
+                    }, index * 200);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+        document.querySelectorAll('.feature-card').forEach(function(card) {
+            card.style.opacity = '0';
+            observer.observe(card);
+        });
+
+        // Enhanced button hover effects
+        document.querySelectorAll('.btn-hero, .btn-outline-modern, .btn-auth').forEach(function(btn) {
+            btn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.02)';
+            });
+            btn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Dynamic glow on scroll
+        window.addEventListener('scroll', function() {
+            const scrollPercent = window.pageYOffset / (document.body.scrollHeight - window.innerHeight);
+            const glowIntensity = Math.sin(scrollPercent * Math.PI * 2) * 0.5 + 0.5;
+            document.querySelectorAll('.glow-text').forEach(function(element) {
+                element.style.textShadow = `0 0 ${20 + glowIntensity * 20}px rgba(17, 122, 63, ${0.3 + glowIntensity * 0.4}), 0 0 ${20 + glowIntensity * 20}px rgba(220, 38, 38, ${0.2 + glowIntensity * 0.3})`;
+            });
+        });
+
+        // Form validation
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (email && password) {
+                alert('Login functionality would be implemented here!');
+                // Add actual login logic here
+            }
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            alert('Registration functionality would be implemented here!');
+            // Add actual registration logic here
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Enhanced carousel interactions
+        const carousel = document.getElementById('heroCarousel');
+        carousel.addEventListener('slide.bs.carousel', function (e) {
+            setTimeout(() => {
+                const newCaption = e.relatedTarget.querySelector('.carousel-caption');
+                if (newCaption) {
+                    newCaption.style.animation = 'slideInUp 1s ease-out';
+                }
+            }, 100);
+        });
+    });
+</script>
+</body>
+</html>

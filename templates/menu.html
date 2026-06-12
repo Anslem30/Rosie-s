@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rosie’s Authentic Nigerian Cuisine - Menu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<style>
+    :root {
+      --color-bg: 255,255,255;
+      --color-text: 15,23,42;
+      --color-muted: 100,116,139;
+      --color-primary: 17,122,63;
+      --color-primary-soft: 219,238,227;
+      --color-red: 220,38,38;
+      --color-border: 226,232,240;
+      --color-gradient: linear-gradient(135deg, rgb(17,122,63) 0%, rgb(220,38,38) 100%);
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: rgb(248,250,252);
+      color: rgb(var(--color-text));
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Hero */
+    .hero-header {
+      width: 100%;
+      padding: 24px 16px 40px;
+      background: var(--color-gradient);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-inner {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .hero-logo {
+      width: 150px;
+      height: auto;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-nav {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .hero-nav a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.4);
+      background: rgba(255,255,255,0.12);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s ease;
+    }
+
+    .hero-nav a:hover {
+      background: rgba(255,255,255,0.22);
+    }
+
+    /* Layout */
+    .page {
+      max-width: 1200px;
+      margin:40px auto;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .menu-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      .menu-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    /* Sections */
+    .menu-section {
+      margin-bottom: 32px;
+    }
+
+    .menu-section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .menu-section-title {
+      font-family: var(--font-heading);
+      font-size: 1.6rem;
+    }
+
+    .menu-section-sub {
+      font-size: 0.85rem;
+      color: rgb(var(--color-muted));
+    }
+
+    .menu-items {
+      display: grid;
+      gap: 18px;
+    }
+
+    /* Item card */
+    .menu-item {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid rgb(var(--color-border));
+      box-shadow: 0 8px 20px rgba(15,23,42,0.06);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .menu-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 30px rgba(15,23,42,0.12);
+    }
+
+    .menu-item-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1px solid rgb(var(--color-border));
+      border-radius: 16px 16px 0 0;
+    }
+
+    .menu-item-body {
+      padding: 14px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .menu-item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .menu-item-name {
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .menu-item-price {
+      font-weight: 700;
+      color: rgb(var(--color-primary));
+      font-size: 1rem;
+    }
+
+    .menu-item-desc {
+      font-size: 0.9rem;
+      color: rgb(var(--color-muted));
+    }
+
+    .menu-item-footer {
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .menu-item-tag {
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(17,122,63,0.08);
+      color: rgb(var(--color-primary));
+      font-weight: 600;
+    }
+
+    .btn-add {
+      border: none;
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--color-gradient);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.18s ease;
+      white-space: nowrap;
+    }
+
+    .btn-add:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    /* Floating cart icon */
+    .cart-fab {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--color-gradient);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 14px 30px rgba(15,23,42,0.35);
+      cursor: pointer;
+      z-index: 20;
+      animation: cart-bounce 1.8s infinite;
+    }
+
+    @keyframes cart-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    /* Cart count badge */
+    .cart-count {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background: #fff;
+      color: rgb(var(--color-primary));
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .cart-count.bump {
+      animation: bump 0.3s ease;
+    }
+
+    @keyframes bump {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.25); }
+      100% { transform: scale(1); }
+    }
+
+    /* Footer note (more visible) */
+    .footer-note {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+      color: rgb(var(--color-primary));
+      padding: 16px 10px;
+      background: rgba(17,122,63,0.08);
+      border-radius: 12px;
+    }
+
+    .footer-note .insta-link {
+      display: inline-block;
+      margin-top: 6px;
+      color: rgb(var(--color-red));
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    .footer-note .insta-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Checkout button */
+    .checkout-btn {
+      padding: 14px 20px;
+      border-radius: 50px;
+      border: none;
+      background: linear-gradient(135deg,
+        rgb(17,122,63),
+        rgb(220,38,38)
+      );
+      color: #fff;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 16px;
+      cursor: pointer;
+      text-align: center;
+      display: block;
+      text-decoration: none;
+      transition: 0.25s ease;
+    }
+
+    .checkout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(17,122,63,0.3);
+    }
+  .flash-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.flash {
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #fff;
+  animation: fadeIn 0.3s ease, fadeOut 0.3s ease 2.5s forwards;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.flash.success {
+  background: rgb(var(--color-primary));
+}
+
+.flash.info {
+  background: rgb(var(--color-muted));
+}
+
+.flash.error {
+  background: rgb(var(--color-red));
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; transform: translateY(-10px); }
+}
+
+</style>
+</head>
+
+<body>
+
+
+<!-- Floating cart icon -->
+<a href="/cart" class="cart-fab">
+  <i class="fas fa-shopping-cart"></i>
+  <span class="cart-count">{{ session['cart']|length if session.get('cart') else 0 }}</span>
+</a>
+
+<!-- Hero -->
+<header class="hero-header">
+  <div class="hero-inner">
+
+    <img src="/static/images/rosies.png" class="hero-logo" alt="Rosie's Logo">
+
+    <nav class="hero-nav">
+      <a href="/"><i class="fas fa-home"></i> Home</a>
+      <a href="{{ url_for('user_dashboard') }}"><i class="fas fa-user"></i> Dashboard</a>
+    </nav>
+
+  </div>
+</header>
+
+
+<!-- Main layout -->
+<main class="page">
+  <section class="menu-layout">
+
+    <!-- LEFT SIDE: MENU SECTIONS -->
+    <div>
+
+      <!-- ================= APPETIZERS ================= -->
+      <section class="menu-section" id="appetizers">
+        <div class="menu-section-header">
+          <h3 class="menu-section-title">Appetizers</h3>
+        </div>
+
+        <div class="menu-items">
+
+          <!-- Puff Puff -->
+          <article class="menu-item">
+            <img src="/static/images/puff_puff.jpg" alt="Puff Puff" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Puff Puff</div>
+                <div class="menu-item-price">$5.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Sweet, fluffy fried dough balls served with your choice of condensed milk, caramel, or chocolate syrup.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Customer favourite</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="1">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Suya Chicken Wings -->
+          <article class="menu-item">
+            <img src="/static/images/suyachicken.jpg" alt="Suya Chicken Wings" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Suya Chicken Wings</div>
+                <div class="menu-item-price">$12.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Grilled chicken wings coated in suya spice, served with seasoned fries or fried plantain.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Spicy</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="2">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Peppered Chicken Wings -->
+          <article class="menu-item">
+            <img src="/static/images/chicken_wings.jpg" alt="Peppered Chicken Wings" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Peppered Chicken Wings</div>
+                <div class="menu-item-price">$12.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Crispy chicken wings tossed in a rich, spicy pepper sauce.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Spicy</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="3">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Peppered Turkey Wings -->
+          <article class="menu-item">
+            <img src="/static/images/peppered_turkey.jpg" alt="Peppered Turkey Wings" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Peppered Turkey Wings</div>
+                <div class="menu-item-price">$12.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Tender turkey wings in a bold, peppered sauce — perfect for sharing.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Rich & hearty</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="4">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ================= MAIN COURSE ================= -->
+      <section class="menu-section" id="main-course">
+        <div class="menu-section-header">
+          <h3 class="menu-section-title">Main Course</h3>
+        </div>
+
+        <div class="menu-items">
+
+          <!-- Jollof Rice -->
+          <article class="menu-item">
+            <img src="/static/images/jrice.jpg" alt="Jollof Rice" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Jollof Rice</div>
+                <div class="menu-item-price">$14.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Classic Nigerian jollof rice cooked in rich tomato stew, served with protein and plantain.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Signature dish</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="5">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Jollof Spaghetti -->
+          <article class="menu-item">
+            <img src="/static/images/spag.jpg" alt="Jollof Spaghetti" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Jollof Spaghetti</div>
+                <div class="menu-item-price">$10.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Spaghetti cooked in jollof-style sauce with peppers and spices.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Comfort food</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="6">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Fried Rice -->
+          <article class="menu-item">
+            <img src="/static/images/friedrice.jpg" alt="Fried Rice" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Fried Rice</div>
+                <div class="menu-item-price">$16.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Nigerian-style fried rice with vegetables and protein, served with plantain.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Loaded plate</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="7">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Ayamase -->
+          <article class="menu-item">
+            <img src="/static/images/ayamase.jpg" alt="Ayamase" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Ayamase</div>
+                <div class="menu-item-price">$24.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Spicy green ofada stew served with white rice, plantain, and boiled egg.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Spicy & rich</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="8">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+      <!-- ================= SOUPS ================= -->
+      <section class="menu-section" id="soups">
+        <div class="menu-section-header">
+          <h3 class="menu-section-title">Soups</h3>
+          <span class="menu-section-sub">Served with fufu or eba</span>
+        </div>
+
+        <div class="menu-items">
+
+          <!-- Egusi -->
+          <article class="menu-item">
+            <img src="/static/images/egusi.jpg" alt="Egusi Soup" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Egusi</div>
+                <div class="menu-item-price">$20.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Ground melon seed soup cooked with leafy greens and assorted meats.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Hearty classic</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="9">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Efo-Riro -->
+          <article class="menu-item">
+            <img src="/static/images/efoiro.jpg" alt="Efo-Riro" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Efo‑Riro</div>
+                <div class="menu-item-price">$18.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Spinach stew cooked in a rich pepper sauce with assorted meats.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Vegetable rich</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="10">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Okra -->
+          <article class="menu-item">
+            <img src="/static/images/okra.jpg" alt="Okra Soup" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Okra</div>
+                <div class="menu-item-price">$18.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Nigerian okra soup cooked with meats and spices, served with swallow.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Traditional</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="11">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ================= SPECIAL MEALS ================= -->
+      <section class="menu-section" id="special-meals">
+        <div class="menu-section-header">
+          <h3 class="menu-section-title">Special Meals</h3>
+          <span class="menu-section-sub">Served with your choice of side</span>
+        </div>
+
+        <div class="menu-items">
+
+          <!-- Grilled Croaker Fish -->
+          <article class="menu-item">
+            <img src="/static/images/grilled fish.jpg" alt="Grilled Croaker Fish" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Grilled Croaker Fish</div>
+                <div class="menu-item-price">$15.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Whole croaker fish marinated and grilled, served with your choice of side.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Chef’s special</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="12">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Grilled Turkey -->
+          <article class="menu-item">
+            <img src="/static/images/turkey.jpg" alt="Grilled Turkey" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Grilled Turkey</div>
+                <div class="menu-item-price">$15.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Juicy grilled turkey pieces seasoned with Rosie’s special spice blend.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Smoky flavour</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="13">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Chicken Suya Pizza -->
+          <article class="menu-item">
+            <img src="/static/images/pizza.jpg" alt="Chicken Suya Pizza" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Chicken Suya Pizza</div>
+                <div class="menu-item-price">$15.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Fusion of Nigerian suya chicken and cheesy pizza on a crisp base.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Fusion special</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="14">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ================= SIDES ================= -->
+      <section class="menu-section" id="sides">
+        <div class="menu-section-header">
+          <h3 class="menu-section-title">Sides</h3>
+        </div>
+
+        <div class="menu-items">
+
+          <!-- Corn on the Cob -->
+          <article class="menu-item">
+            <img src="/static/images/corn.jpg" alt="Corn on the Cob" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Corn on the Cob</div>
+                <div class="menu-item-price">$4.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Grilled corn on the cob, lightly seasoned.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Side</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="15">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Fried Plantain -->
+          <article class="menu-item">
+            <img src="/static/images/plantain.jpg" alt="Fried Plantain" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Fried Plantain</div>
+                <div class="menu-item-price">$4.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Sweet, golden fried plantain slices.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Side</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="16">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Coleslaw -->
+          <article class="menu-item">
+            <img src="/static/images/coleslaw.jpg" alt="Coleslaw" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Coleslaw</div>
+                <div class="menu-item-price">$4.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Creamy, crunchy coleslaw to pair with your mains.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Side</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="17">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Seasoned Fries -->
+          <article class="menu-item">
+            <img src="/static/images/fries.jpg" alt="Seasoned Fries" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Seasoned Potato Fries</div>
+                <div class="menu-item-price">$4.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Crispy fries tossed in Rosie’s house seasoning.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Side</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="18">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+      <!-- ================= DRINKS ================= -->
+      <section class="menu-section" id="drinks">
+        <div class="menu-section-header">
+          <h3 class="menu-section-title">Drinks</h3>
+        </div>
+
+        <div class="menu-items">
+
+          <!-- Zobo -->
+          <article class="menu-item">
+            <img src="/static/images/zobo.jpg" alt="Hibiscus (Zobo) Drink" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Hibiscus (Zobo) Drink</div>
+                <div class="menu-item-price">$5.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Refreshing hibiscus drink, lightly sweetened and served chilled.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">House drink</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="19">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Soda -->
+          <article class="menu-item">
+            <img src="/static/images/soda.jpg" alt="Soda" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Soda</div>
+                <div class="menu-item-price">$1.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Assorted soft drinks.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Cold</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="20">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Water -->
+          <article class="menu-item">
+            <img src="/static/images/water.jpg" alt="Water" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Water</div>
+                <div class="menu-item-price">$1.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Bottled still water.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Essential</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="21">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+          <!-- Malt -->
+          <article class="menu-item">
+            <img src="/static/images/malta.jpg" alt="Malt Drink" class="menu-item-img">
+            <div class="menu-item-body">
+              <div class="menu-item-top">
+                <div class="menu-item-name">Malt Drink</div>
+                <div class="menu-item-price">$2.99</div>
+              </div>
+              <p class="menu-item-desc">
+                Classic non‑alcoholic malt beverage.
+              </p>
+              <div class="menu-item-footer">
+                <span class="menu-item-tag">Chilled</span>
+
+                <form action="/cart/add" method="POST">
+                  <input type="hidden" name="item_id" value="22">
+                  <input type="hidden" name="quantity" value="1">
+                  <button class="btn-add"><i class="fas fa-plus"></i> Add to Cart</button>
+                </form>
+
+              </div>
+            </div>
+          </article>
+
+        </div>
+      </section>
+
+      <!-- ================= CHECKOUT BUTTON ================= -->
+      <section class="menu-section">
+        <div class="menu-item-footer" style="justify-content:center; margin-top:20px;">
+          <a href="/checkout" class="checkout-btn">
+            <i class="fas fa-credit-card"></i> Proceed to Checkout
+          </a>
+        </div>
+      </section>
+
+    </div> <!-- END LEFT SIDE -->
+
+  </section> <!-- END menu-layout -->
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer-note">
+  <span>Customized catering orders available on request.</span>
+  <a href="https://instagram.com/rosies_cuisine_us?igsh=cnk0cmN3GM3dXZ3" target="_blank" class="insta-link">
+    Message us on Instagram
+  </a>
+</footer>
+
+</body>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="flash-container">
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+
+</html>

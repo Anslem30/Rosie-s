@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Order - Rosie's</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --color-primary: 17,122,63;
+      --color-primary-light: 76,175,80;
+      --color-primary-dark: 0,77,64;
+      --color-danger: 220,53,69;
+      --color-danger-light: 255,102,114;
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      background: #f8f9fa;
+      color: #333;
+    }
+
+    /* HERO HEADER */
+    .hero-header {
+      background: linear-gradient(135deg, rgba(var(--color-danger),0.95) 0%, rgba(var(--color-danger-light),0.85) 40%, rgba(var(--color-primary),0.95) 100%);
+      color: #fff;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .hero-header h1 {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-logo {
+      max-width: 140px;
+      margin-bottom: 1rem;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* NAV BUTTONS */
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 2px solid rgba(255,255,255,0.45);
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.28);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+    }
+
+    /* CARD */
+    .track-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .track-card h2 {
+      font-family: var(--font-heading);
+      color: rgb(var(--color-primary));
+      font-size: 1.9rem;
+      margin-bottom: 10px;
+      border-bottom: 2px solid rgba(17,122,63,0.2);
+      padding-bottom: 8px;
+    }
+
+    .order-details {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+      font-weight: 600;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      background: linear-gradient(135deg, rgba(var(--color-danger),1) 0%, rgba(var(--color-danger-light),1) 40%, rgba(var(--color-primary),1) 100%);
+      color: #fff;
+    }
+
+    /* TIMELINE */
+    .timeline {
+      position: relative;
+      margin-top: 20px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: rgba(var(--color-primary), 0.25);
+      border-radius: 4px;
+    }
+
+    .step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 18px 0;
+      position: relative;
+    }
+
+    .step-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(var(--color-primary), 0.1);
+      border: 2px solid rgba(var(--color-primary), 0.25);
+      color: rgb(var(--color-primary-dark));
+      font-weight: 700;
+    }
+
+    .step.completed .step-icon {
+      background: linear-gradient(135deg, rgba(var(--color-primary),1) 0%, rgba(var(--color-primary-light),1) 100%);
+      border-color: rgba(var(--color-primary), 0.9);
+      color: #fff;
+    }
+
+    .step-info h3 {
+      font-family: var(--font-heading);
+      margin-bottom: 6px;
+      font-size: 1.05rem;
+    }
+
+    .step-info p {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    .step-info small {
+      color: #999;
+    }
+
+    @media (max-width: 900px) {
+      .order-details { flex-direction: column; }
+      .timeline::before { left: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero-header">
+    <img src="/static/images/rosies.png" class="hero-logo" alt="Rosie's Logo">
+    <h1><i class="fas fa-map-marker-alt"></i> Track Your Order</h1>
+    <p>Live status updates from kitchen to doorstep</p>
+
+    <!-- NAV BUTTONS -->
+    <div class="nav-buttons">
+      <a href="{{ url_for('home') }}" class="nav-btn"><i class="fas fa-home"></i> Home</a>
+      <a href="{{ url_for('user_dashboard') }}" class="nav-btn"><i class="fas fa-user"></i> Dashboard</a>
+      <a href="{{ url_for('menu') }}" class="nav-btn"><i class="fas fa-utensils"></i> Menu</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="track-card">
+      <h2>Order #{{ order.id }}</h2>
+
+      <div class="order-details">
+        <span><strong>Customer:</strong> {{ order.customer_name }}</span>
+        <span><strong>Total:</strong> ${{ "%.2f"|format(order.total) }}</span>
+        <span class="status-badge"><i class="fas fa-truck"></i> {{ order.status }}</span>
+      </div>
+
+      <div class="timeline">
+        <div class="step {% if order.status in ['Pending', 'Preparing', 'Out for Delivery', 'Delivered'] %}completed{% endif %}">
+          <div class="step-icon"><i class="fas fa-clock"></i></div>
+          <div class="step-info">
+            <h3>Order Placed</h3>
+            <p>Your order has been received.</p>
+            <small>{{ order.created_at.strftime('%b %d, %Y • %I:%M %p') }}</small>
+          </div>
+        </div>
+
+        <div class="step {% if order.status in ['Preparing', 'Out for Delivery', 'Delivered'] %}completed{% endif %}">
+          <div class="step-icon"><i class="fas fa-utensils"></i></div>
+          <div class="step-info">
+            <h3>Preparing</h3>
+            <p>Your meal is being prepared.</p>
+            <small>Estimated time: 15–20 minutes</small>
+          </div>
+        </div>
+
+        <div class="step {% if order.status in ['Out for Delivery', 'Delivered'] %}completed{% endif %}">
+          <div class="step-icon"><i class="fas fa-truck-fast"></i></div>
+          <div class="step-info">
+            <h3>Out for Delivery</h3>
+            <p>Your order is on the way.</p>
+            <small>Estimated delivery: 30–45 minutes</small>
+          </div>
+        </div>
+
+        <div class="step {% if order.status == 'Delivered' %}completed{% endif %}">
+          <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="step-info">
+            <h3>Delivered</h3>
+            <p>Your order has been delivered.</p>
+            <small>Enjoy your meal!</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

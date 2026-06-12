@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Methods – Rosie's</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+  --green: 17,122,63;
+  --red: 220,38,38;
+  --green-dark: 0,77,64;
+  --soft: 245,245,245;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Montserrat', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-body); background: #fff; color: #333; }
+
+/* HEADER */
+.hero-header {
+  padding: 50px 20px 60px;
+  background: linear-gradient(135deg,
+    rgba(var(--green),0.9),
+    rgba(var(--red),0.85)
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+}
+
+.hero-logo {
+  width: 180px;
+  margin-bottom: 10px;
+}
+
+.hero-header h1 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  margin-bottom: 6px;
+}
+
+.hero-header p {
+  opacity: 0.9;
+}
+
+.hero-nav {
+  margin-top: 20px;
+}
+
+.hero-nav a {
+  padding: 10px 22px;
+  background: rgba(255,255,255,0.2);
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 50px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.25s;
+}
+
+.hero-nav a:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+}
+
+/* PAGE */
+.page {
+  max-width: 1100px;
+  margin: -30px auto 80px;
+  padding: 0 20px;
+}
+
+/* GRID */
+.payment-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.section-card {
+  background: rgba(var(--soft),0.95);
+  padding: 2rem;
+  border-radius: 18px;
+  border: 1px solid rgba(var(--green),0.15);
+  box-shadow: 0 10px 30px rgba(var(--green),0.1);
+}
+
+.section-card h2 {
+  font-family: var(--font-heading);
+  color: rgb(var(--green-dark));
+  margin-bottom: 1.5rem;
+}
+
+/* FORM */
+.form-group { margin-bottom: 1rem; }
+label { font-weight: 600; margin-bottom: 0.4rem; display: block; }
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(var(--green),0.3);
+  font-size: 0.95rem;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  border-radius: 50px;
+  background: linear-gradient(135deg,
+    rgb(var(--green)),
+    rgb(var(--red))
+  );
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(var(--green),0.25);
+}
+
+/* SAVED CARDS */
+.card-item {
+  background: linear-gradient(135deg,
+    rgba(var(--green),0.9),
+    rgba(var(--red),0.9)
+  );
+  padding: 1.5rem;
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.card-item::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -40%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+}
+
+.card-info { z-index: 1; }
+.card-type { opacity: 0.9; margin-bottom: 0.4rem; }
+.card-number { font-size: 1.4rem; font-weight: 700; letter-spacing: 3px; margin-bottom: 0.6rem; }
+
+.card-details {
+  display: flex;
+  gap: 2rem;
+  opacity: 0.9;
+}
+
+.delete-btn {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.4);
+  padding: 0.6rem 1.2rem;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.25s;
+}
+
+.delete-btn:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+}
+
+/* EMPTY STATE */
+.no-cards {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+}
+
+.no-cards .icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 900px) {
+  .payment-container { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero-header">
+  <img src="/static/images/rosies-logo.png" class="hero-logo" alt="Rosie's Logo">
+
+  <h1>Payment Methods</h1>
+  <p>Manage your saved cards</p>
+
+  <div class="hero-nav">
+    <a href="{{ url_for('user_dashboard') }}">← Back to Dashboard</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="payment-container">
+
+    <!-- ADD CARD -->
+    <div class="section-card">
+      <h2>Add New Card</h2>
+
+      <form method="POST">
+        <div class="form-group">
+          <label>Card Type *</label>
+          <select name="card_type" required>
+            <option value="">Select card type</option>
+            <option value="Visa">Visa</option>
+            <option value="Mastercard">Mastercard</option>
+            <option value="American Express">American Express</option>
+            <option value="Discover">Discover</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Card Number *</label>
+          <input type="text" name="card_number" maxlength="19" required>
+        </div>
+
+        <div class="form-group">
+          <label>Cardholder Name *</label>
+          <input type="text" name="card_name" required>
+        </div>
+
+        <div class="form-group">
+          <label>Expiry Date *</label>
+          <input type="text" name="expiry_date" placeholder="MM/YY" maxlength="5" required>
+        </div>
+
+        <button type="submit" class="btn-primary">Add Card</button>
+      </form>
+    </div>
+
+    <!-- SAVED CARDS -->
+    <div class="section-card">
+      <h2>Saved Cards</h2>
+
+      {% if payment_methods %}
+        {% for method in payment_methods %}
+        <div class="card-item">
+          <div class="card-info">
+            <div class="card-type">💳 {{ method.card_type }}</div>
+            <div class="card-number">{{ method.card_number }}</div>
+
+            <div class="card-details">
+              <div><strong>Holder:</strong> {{ method.card_name }}</div>
+              <div><strong>Expires:</strong> {{ method.expiry_date }}</div>
+            </div>
+          </div>
+
+          <a href="{{ url_for('delete_payment_method', method_id=method.id) }}"
+             class="delete-btn"
+             onclick="return confirm('Remove this card?')">
+            Remove
+          </a>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="no-cards">
+          <div class="icon">💳</div>
+          <h3>No saved cards</h3>
+          <p>Add a payment method to checkout faster next time.</p>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>

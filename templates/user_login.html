@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Login – Rosie's</title>
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+    --primary: #2c5f2d;
+    --primary-light: #00a65a;
+    --soft-bg: rgba(255,255,255,0.92);
+    --text-dark: #333;
+    --radius: 14px;
+    --shadow: 0 25px 60px rgba(0,0,0,0.25);
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+/* Base */
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-y: auto;
+}
+
+/* Background Wrapper */
+.background-wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+}
+
+.video-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.7)
+    );
+}
+
+/* Flash Messages */
+.flash-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.flash {
+    background: var(--soft-bg);
+    padding: 14px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    box-shadow: var(--shadow);
+    margin-bottom: 10px;
+    animation: slideDown 0.4s ease;
+}
+
+.flash.success { border-left: 6px solid #28a745; }
+.flash.error { border-left: 6px solid #dc3545; }
+.flash.warning { border-left: 6px solid #ffc107; }
+
+@keyframes slideDown {
+    from { opacity:0; transform: translateY(-10px); }
+    to { opacity:1; transform: translateY(0); }
+}
+
+/* Auth Container */
+.auth-container {
+    max-width: 500px;
+    margin: 4rem auto;
+    background: var(--soft-bg);
+    padding: 3rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    position: relative;
+    z-index: 1;
+}
+
+/* Header */
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-header .icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.auth-header h1 {
+    font-family: var(--font-heading);
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+/* LOGO ADDED */
+.auth-header .logo {
+    margin: 0 auto 15px;
+    width: 160px;
+}
+
+.auth-header .logo img {
+    width: 100%;
+    height: auto;
+}
+
+/* Demo Credentials */
+.demo-credentials {
+    background: #fff3cd;
+    padding: 1rem;
+    border-radius: var(--radius);
+    margin-bottom: 2rem;
+    border-left: 5px solid #ffc107;
+}
+
+.demo-credentials h4 {
+    margin-bottom: 0.5rem;
+    color: #856404;
+}
+
+/* Form */
+.auth-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.auth-form label {
+    font-weight: 600;
+    color: var(--text-dark);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.auth-form input {
+    width: 100%;
+    padding: 1rem;
+    border-radius: var(--radius);
+    border: 2px solid #e0e0e0;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.auth-form input:focus {
+    border-color: var(--primary-light);
+    outline: none;
+}
+
+/* Remember */
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.remember-forgot a {
+    color: var(--primary-light);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Button */
+.auth-form .btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    transition: 0.3s;
+}
+
+.auth-form .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+/* Footer */
+.auth-footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.auth-footer a {
+    color: var(--primary-light);
+    font-weight: 600;
+    text-decoration: none;
+}
+</style>
+</head>
+<body>
+
+<!-- Flash Messages (FIXED: render only when messages exist) -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="flash-container">
+    {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<!-- Login Card -->
+<div class="auth-container">
+    <div class="auth-header">
+
+        <!-- LOGO ADDED HERE -->
+        <div class="logo">
+            <img src="/static/images/rosies.png" alt="Rosie's Logo">
+        </div>
+
+        <h1>Welcome Back</h1>
+        <p>Login to enjoy authentic African cuisine</p>
+    </div>
+
+    <form class="auth-form" method="POST">
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username" required autofocus>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" required>
+        </div>
+
+        <div class="remember-forgot">
+            <label><input type="checkbox" name="remember"> Remember me</label>
+            <a href="{{ url_for('change_password') }}">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn">Login</button>
+    </form>
+
+    <div class="auth-footer">
+        <p>Don’t have an account? <a href="{{ url_for('user_register') }}">Register</a></p>
+        <p style="margin-top:1rem;">
+            <a href="{{ url_for('home') }}">← Back to Home</a>
+        </p>
+    </div>
+</div>
+
+<!-- Flash Auto-Dismiss (FIXED: waits for DOM + messages) -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const flashes = document.querySelectorAll('.flash');
+    if (flashes.length) {
+        setTimeout(() => {
+            flashes.forEach(el => {
+                el.style.opacity = '0';
+                setTimeout(() => el.remove(), 400);
+            });
+        }, 4000);
+    }
+});
+</script>
+
+</body>
+</html>

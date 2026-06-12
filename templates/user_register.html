@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Rosie's</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            margin: 0;
+        }
+
+        .auth-container {
+            max-width: 600px;
+            margin: 3rem auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            color: #2c5f2d;
+        }
+
+        .form-group {
+            margin-bottom: 1.3rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            font-size: 1rem;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #00a65a;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #2c5f2d, #00a65a);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .auth-footer a{
+            color: #2c5f2d;
+            text-decoration: none;
+        }
+
+        .flash {
+            padding: 0.8rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .flash.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .flash.success {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="auth-container">
+    <div class="auth-header">
+
+        <!-- LOGO ADDED HERE -->
+        <img src="/static/images/rosies.png" alt="Rosie's Logo" style="width: 200px; margin-bottom: 15px;">
+
+        <h1>Create Account</h1>
+        <p>Register to enjoy African Delights</p>
+    </div>
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <!-- IMPORTANT: NO onsubmit, NO JS redirect -->
+    <form method="POST" action="{{ url_for('user_register') }}">
+
+        <div class="form-group">
+            <label>Username *</label>
+            <input type="text" name="username" required minlength="3">
+        </div>
+
+        <div class="form-group">
+            <label>Email *</label>
+            <input type="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" name="full_name" required>
+        </div>
+
+        <div class="form-group">
+            <label>Password *</label>
+            <input type="password" name="password" required minlength="6">
+        </div>
+
+        <div class="form-group">
+            <label>Phone *</label>
+            <input type="tel" name="phone" required>
+        </div>
+
+        <div class="form-group">
+            <label>Address *</label>
+            <textarea name="address" rows="3" required></textarea>
+        </div>
+
+        <button type="submit">Create Account</button>
+    </form>
+
+    <div class="auth-footer">
+        <p>Already have an account?
+            <a href="{{ url_for('user_login') }}">Login here</a>
+        </p>
+        <p>
+            <a href="{{ url_for('home') }}">← Back to Home</a>
+        </p>
+    </div>
+</div>
+
+</body>
+</html>
