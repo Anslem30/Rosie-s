@@ -1,10 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime, timedelta
 import os
 
-from sqlalchemy.dialects.oracle.dictionary import all_users
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
@@ -680,21 +679,6 @@ def admin_dashboard():
     )
 
 
-@app.route('/admin/orders')
-def admin_orders():
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
-
-    status_filter = request.args.get('status', 'all')
-
-    if status_filter == 'all':
-        filtered_orders = Order.query.order_by(Order.created_at.desc()).all()
-    else:
-        filtered_orders = Order.query.filter_by(status=status_filter).order_by(Order.created_at.desc()).all()
-
-    return render_template('admin_orders.html', orders=filtered_orders, status_filter=status_filter)
-
-
 @app.route('/admin/update_order_status/<int:order_id>/<status>')
 def update_order_status(order_id, status):
     if not session.get('admin_logged_in'):
@@ -717,58 +701,7 @@ def update_order_status(order_id, status):
     return redirect(request.referrer or url_for('admin_dashboard'))
 
 
-@app.route('/admin/menu', methods=['GET', 'POST'])
-def admin_menu():
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
 
-    if request.method == 'POST':
-        name = request.form.get('name', '').strip()
-        price = float(request.form.get('price', 0))
-        category = request.form.get('category', '').strip()
-        description = request.form.get('description', '').strip()
-
-        if name and price and category:
-            new_item = MenuItem(
-                name=name,
-                price=price,
-                category=category,
-                description=description,
-                image='default.jpg'
-            )
-            db.session.add(new_item)
-            db.session.commit()
-            flash('Menu item added successfully!', 'success')
-        else:
-            flash('Please fill in all required fields!', 'error')
-
-        return redirect(url_for('admin_menu'))
-
-    all_menu_items = MenuItem.query.all()
-    return render_template('admin_menu.html', menu_items=all_menu_items)
-
-
-@app.route('/admin/menu/delete/<int:item_id>')
-def admin_delete_menu_item(item_id):
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
-
-    item = MenuItem.query.get(item_id)
-    if item:
-        db.session.delete(item)
-        db.session.commit()
-        flash('Menu item deleted!', 'info')
-
-    return redirect(url_for('admin_menu'))
-
-
-@app.route('/admin/users')
-def admin_users():
-    if not session.get('admin_logged_in'):
-        return redirect(url_for('admin_login'))
-
-    all_users = User.query.all()
-    return render_template('admin_users.html', users=all_users)
 
 
 # ==================== RUN APPLICATION ====================
