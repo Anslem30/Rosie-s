@@ -7,7 +7,7 @@ import os
 from sqlalchemy.dialects.oracle.dictionary import all_users
 from werkzeug.security import generate_password_hash, check_password_hash
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static', static_url_path='/static')
 app.secret_key = 'your-secret-key-change-this-in-production'
 
 # Database Configuration
