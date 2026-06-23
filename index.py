@@ -12,7 +12,7 @@ app.secret_key = 'your-secret-key-change-this-in-production'
 
 # Database Configuration
 basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'delta_kitchen.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("POSTGRES_URL_NON_POOLING")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize Database
