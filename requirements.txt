@@ -9,3 +9,5 @@ itsdangerous==2.2.0
 click==8.2.1
 greenlet==3.3.0
 MarkupSafe==3.0.2
+stripe~=15.3.0b1
+DateTime~=5.5

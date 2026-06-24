@@ -7,6 +7,9 @@ import os
 from sqlalchemy.dialects.oracle.dictionary import all_users
 from werkzeug.security import generate_password_hash, check_password_hash
 
+import stripe
+stripe.api_key = os.environ.get("STRIPE_SECRET_KEY")
+
 app = Flask(__name__, static_folder='static', static_url_path='/static')
 app.secret_key = 'your-secret-key-change-this-in-production'
 
@@ -286,6 +289,51 @@ def checkout():
     total = sum(item['total'] for item in cart_items)
 
     return render_template('checkout.html', user=user, cart_items=cart_items, total=total)
+
+@app.route('/create-checkout-session', methods=['POST'])
+@login_required
+def create_checkout_session():
+    cart_items = session.get('cart', [])
+    if not cart_items:
+        flash('Your cart is empty!', 'error')
+        return redirect(url_for('cart'))
+
+    # Build Stripe line items
+    line_items = []
+    for item in cart_items:
+        line_items.append({
+            'price_data': {
+                'currency': 'usd',
+                'product_data': {
+                    'name': item['name'],
+                },
+                'unit_amount': int(item['price'] * 100),
+            },
+            'quantity': item['quantity'],
+        })
+
+    # Load connected Stripe account (will be None until your sister connects)
+    connected_account_id = None
+    if os.path.exists("stripe_account.txt"):
+        with open("stripe_account.txt", "r") as f:
+            connected_account_id = f.read().strip()
+
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card', 'cashapp'],
+            line_items=line_items,
+            mode='payment',
+            success_url=url_for('payment_success', _external=True) + '?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=url_for('payment_cancel', _external=True),
+            stripe_account=connected_account_id
+        )
+
+        return redirect(checkout_session.url, code=303)
+
+    except Exception as e:
+        print("Stripe error:", e)
+        flash('Payment error. Please try again.', 'error')
+        return redirect(url_for('checkout'))
 
 
 @app.route('/order/place', methods=['POST'])
@@ -624,6 +672,20 @@ def my_orders():
 
     return render_template('my_orders.html', orders=user_orders)
 
+@app.route('/payment/success')
+@login_required
+def payment_success():
+    session['cart'] = []
+    session.modified = True
+    flash('Payment successful! Your order has been placed.', 'success')
+    return redirect(url_for('user_dashboard'))
+
+
+@app.route('/payment/cancel')
+@login_required
+def payment_cancel():
+    flash('Payment cancelled.', 'info')
+    return redirect(url_for('checkout'))
 
 @app.template_filter('datetimeformat')
 def datetimeformat(value):
@@ -659,6 +721,7 @@ def admin_dashboard():
     if not session.get('admin_logged_in'):
         return redirect(url_for('admin_login'))
 
+    # Load orders and users
     all_orders = Order.query.order_by(Order.created_at.desc()).all()
     all_users = User.query.order_by(User.created_at.desc()).all()
 
@@ -669,6 +732,15 @@ def admin_dashboard():
 
     recent_orders = all_orders[:10]
 
+    # ⭐ Load Stripe connection status
+    stripe_connected = None
+    try:
+        if os.path.exists("stripe_account.txt"):
+            with open("stripe_account.txt", "r") as f:
+                stripe_connected = f.read().strip()
+    except:
+        pass
+
     return render_template(
         'admin_dashboard.html',
         orders=recent_orders,
@@ -676,7 +748,8 @@ def admin_dashboard():
         total_orders=total_orders,
         total_revenue=total_revenue,
         pending_orders=pending_orders,
-        completed_orders=completed_orders
+        completed_orders=completed_orders,
+        stripe_connected=stripe_connected  # ⭐ Pass to template
     )
 
 
@@ -769,6 +842,36 @@ def admin_users():
 
     all_users = User.query.all()
     return render_template('admin_users.html', users=all_users)
+
+@app.route('/admin/stripe/connect')
+def stripe_connect():
+    client_id = os.environ.get("STRIPE_CLIENT_ID")
+    return redirect(
+        f"https://connect.stripe.com/oauth/authorize?response_type=code&client_id={client_id}&scope=read_write"
+    )
+
+@app.route('/admin/stripe/callback')
+def stripe_callback():
+    code = request.args.get('code')
+
+    try:
+        response = stripe.OAuth.token(
+            grant_type='authorization_code',
+            code=code
+        )
+
+        connected_account_id = response['stripe_user_id']
+
+        # Save to file
+        with open("stripe_account.txt", "w") as f:
+            f.write(connected_account_id)
+
+        flash("Stripe account connected successfully!", "success")
+    except Exception as e:
+        print("Stripe error:", e)
+        flash("Stripe connection failed.", "error")
+
+    return redirect(url_for('admin_dashboard'))
 
 
 # ==================== RUN APPLICATION ====================

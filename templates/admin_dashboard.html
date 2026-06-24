@@ -313,6 +313,23 @@ tbody tr:hover {
     </div>
     {% endif %}
   </div>
+    <!-- STRIPE CONNECT -->
+  <div class="section">
+    <h2>Stripe Payments</h2>
+
+    {% if not stripe_connected %}
+      <a href="{{ url_for('stripe_connect') }}"
+         style="display:inline-block; padding:12px 20px; background:linear-gradient(135deg, rgb(17,122,63), rgb(220,38,38));
+                color:#fff; border-radius:50px; font-weight:700; text-decoration:none;">
+        <i class="fas fa-credit-card"></i> Connect Stripe Account
+      </a>
+    {% else %}
+      <p style="font-weight:600; color:rgb(17,122,63);">
+        <i class="fas fa-check-circle"></i> Stripe account connected: {{ stripe_connected }}
+      </p>
+    {% endif %}
+  </div>
+
 
 </div>
 
